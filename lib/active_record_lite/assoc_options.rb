@@ -1,8 +1,8 @@
 class AssocOptions
   attr_accessor(
-  :foreign_key,
-  :class_name,
-  :primary_key,
+    :foreign_key,
+    :class_name,
+    :primary_key,
   )
 
   def model_class

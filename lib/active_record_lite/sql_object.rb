@@ -1,5 +1,14 @@
-require_relative '../../db/_example_db_connection'
+# Extension Ideas
+# 1) Write where so that it is lazy and stackable. Implement a Relation class.
+# 2) Write an includes method that does pre-fetching.
+# 3) has_many :through ; This should handle both belongs_to => has_many and has_many => belongs_to.
+# 4) Validation methods/validator classes
+# 5) joins
+
+require_relative '../../db/db_connection'
 require_relative 'assoc_options'
+require_relative 'has_many_options'
+require_relative 'belongs_to_options'
 require 'active_support/inflector'
 
 class SQLObject

@@ -1,0 +1,16 @@
+Add a new Shoe
+<form action="/shoes" method="post">
+  <label>Shoe Name
+    <input type="text" name="shoe[name]">
+  </label>
+
+  <label>Owner Pant
+    <select name="shoe[pant_id]">
+      <% @pants.each do |pant| %>
+        <option value= <%= pant.id %> > <%= pant.name %> </option>
+      <% end %>
+    </select>
+  </label>
+
+  <input type="submit" value="Add It!">
+</form>

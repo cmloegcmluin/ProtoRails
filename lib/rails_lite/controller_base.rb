@@ -36,9 +36,8 @@ class ControllerBase
   end
 
   def render(template_name)
-    controller_name = self.class.to_s.underscore
-    template = File.read("app/views/#{controller_name}/#{template_name}.html.erb")
-    #template = File.read("_example_views/#{controller_name}/#{template_name}.html.erb")
+    folder_name = self.class.to_s.underscore[0..-12]
+    template = File.read("app/views/#{folder_name}/#{template_name}.html.erb")
     content = ERB.new(template).result(binding)
     render_content(content, "text/html")
   end

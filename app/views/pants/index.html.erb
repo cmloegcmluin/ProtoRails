@@ -1,0 +1,18 @@
+Hello, all pants!
+
+<ul>
+  <% @pants.each do |pant| %>
+  <li><%= pant.name %>
+    <ul>
+    <% pant.shoes.each do |shoe| %>
+      <li><%= shoe.name %></li>
+    <% end %>
+    </ul>
+  </li>
+  <% end %>
+</ul>
+
+<br>
+<a href="pants/new">Add A Pant</a>
+<br>
+<a href="shoes/new">Add A Shoe</a>

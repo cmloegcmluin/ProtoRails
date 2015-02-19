@@ -15,9 +15,9 @@ class SQLObject
   def self.columns
     DBConnection.execute2(<<-SQL).first.map(&:to_sym)
     SELECT
-    *
+      *
     FROM
-    #{table_name}
+      #{table_name}
     SQL
   end
 
@@ -39,11 +39,11 @@ class SQLObject
   def self.all
     results = DBConnection.execute(<<-SQL)
     SELECT
-    *
+      *
     FROM
-    #{table_name}
+      #{table_name}
     SQL
-    #debugger
+
     parse_all(results)
   end
 
@@ -59,11 +59,11 @@ class SQLObject
   def self.find(id)
     results = DBConnection.execute(<<-SQL)
     SELECT
-    *
+      *
     FROM
-    #{table_name}
+      #{table_name}
     WHERE
-    id = #{id}
+      id = #{id}
     LIMIT 1
     SQL
 
@@ -94,9 +94,9 @@ class SQLObject
   def insert
     DBConnection.execute(<<-SQL, *attribute_values)
     INSERT INTO
-    #{self.class.table_name} (#{col_names.join(", ")})
+      #{self.class.table_name} (#{col_names.join(", ")})
     VALUES
-    (#{(["?"] * col_names.length).join(", ")})
+      (#{(["?"] * col_names.length).join(", ")})
     SQL
 
     self.id = DBConnection.last_insert_row_id
@@ -105,11 +105,11 @@ class SQLObject
   def update
     DBConnection.execute(<<-SQL, *attribute_values, id)
     UPDATE
-    #{self.class.table_name}
+      #{self.class.table_name}
     SET
-    #{col_names.map { |attr_name| "#{attr_name} = ?" }.join(", ")}
+      #{col_names.map { |attr_name| "#{attr_name} = ?" }.join(", ")}
     WHERE
-    id = ?
+      id = ?
     SQL
   end
 
@@ -121,11 +121,11 @@ class SQLObject
     where_line = params.map { |key, value| "#{key} = ?" }.join(" AND ")
     results = DBConnection.execute(<<-SQL, *params.values)
     SELECT
-    *
+      *
     FROM
-    #{self.table_name}
+      #{self.table_name}
     WHERE
-    #{where_line}
+      #{where_line}
     SQL
 
     parse_all(results)
@@ -138,11 +138,11 @@ class SQLObject
       return nil if send(options.foreign_key).nil?
       results = DBConnection.execute(<<-SQL)
       SELECT
-      *
+        *
       FROM
-      #{options.table_name}
+        #{options.table_name}
       WHERE
-      #{options.primary_key} = #{send(options.foreign_key)}
+        #{options.primary_key} = #{send(options.foreign_key)}
       SQL
 
       options.model_class.parse_all(results).first
@@ -155,11 +155,11 @@ class SQLObject
     define_method(name) do
       results = DBConnection.execute(<<-SQL)
       SELECT
-      *
+        *
       FROM
-      #{options.table_name}
+        #{options.table_name}
       WHERE
-      #{options.foreign_key} = #{send(options.primary_key)}
+        #{options.foreign_key} = #{send(options.primary_key)}
       SQL
 
       options.model_class.parse_all(results)
@@ -177,17 +177,17 @@ class SQLObject
 
       results = DBConnection.execute(<<-SQL)
       SELECT
-      #{source_options.table_name}.*
+        #{source_options.table_name}.*
       FROM
-      #{source_options.table_name}
+        #{source_options.table_name}
       JOIN
-      #{through_options.table_name}
+        #{through_options.table_name}
       ON
-      #{through_options.table_name}.#{source_options.foreign_key} =
-      #{source_options.table_name}.#{through_options.primary_key}
+        #{through_options.table_name}.#{source_options.foreign_key} =
+        #{source_options.table_name}.#{through_options.primary_key}
       WHERE
-      #{through_options.table_name}.#{through_options.primary_key} =
-      #{send(through_options.foreign_key)}
+        #{through_options.table_name}.#{through_options.primary_key} =
+        #{send(through_options.foreign_key)}
       SQL
 
       source_options.model_class.parse_all(results).first

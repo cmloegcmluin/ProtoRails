@@ -14,10 +14,12 @@ describe ControllerBase do
   let(:req) { WEBrick::HTTPRequest.new(Logger: nil) }
   let(:res) { WEBrick::HTTPResponse.new(HTTPVersion: '1.0') }
   let(:cats_controller) { CatsController.new(req, res) }
+  let(:page_file) { double("page_file") }
 
   describe "#render" do
     before(:each) do
       cats_controller.render(:index)
+      File.stub(:open).and_return(:page_file)
     end
 
     it "renders the html of the index view" do

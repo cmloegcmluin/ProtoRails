@@ -77,41 +77,42 @@ describe Params do
     end
   end
 
-  # describe "strong parameters" do
-  #   describe "#permit" do
-  #     it "allows the permitting of multiple attributes" do
-  #       req.query_string = "key=val&key2=val2&key3=val3"
-  #       params = Params.new(req)
-  #       params.permit("key", "key2")
-  #       params.permitted?("key").should be true
-  #       params.permitted?("key2").should be true
-  #       params.permitted?("key3").should be false
-  #     end
-  #
-  #     it "collects up permitted keys across multiple calls" do
-  #       req.query_string = "key=val&key2=val2&key3=val3"
-  #       params = Params.new(req)
-  #       params.permit("key")
-  #       params.permit("key2")
-  #       params.permitted?("key").should be true
-  #       params.permitted?("key2").should be true
-  #       params.permitted?("key3").should be false
-  #     end
-  #   end
-  #
-  #   describe "#require" do
-  #     it "throws an error if the attribute does not exist" do
-  #       req.query_string = "key=val"
-  #       params = Params.new(req)
-  #       expect { params.require("key") }.to_not raise_error
-  #       expect { params.require("key2") }.to raise_error(Params::AttributeNotFoundError)
-  #     end
-  #   end
-  #
-  #   describe "interaction with ARLite models" do
-  #     it "throws a ForbiddenAttributesError if mass assignment is attempted with unpermitted attributes" do
-  #
-  #     end
-  #   end
-  # end
+  describe "strong parameters" do
+    describe "#permit" do
+      it "allows the permitting of multiple attributes"
+      # do
+      #   req.query_string = "key=val&key2=val2&key3=val3"
+      #   params = Params.new(req)
+      #   params.permit("key", "key2")
+      #   params.permitted?("key").should be true
+      #   params.permitted?("key2").should be true
+      #   params.permitted?("key3").should be false
+      # end
+
+      it "collects up permitted keys across multiple calls"
+      # do
+      #   req.query_string = "key=val&key2=val2&key3=val3"
+      #   params = Params.new(req)
+      #   params.permit("key")
+      #   params.permit("key2")
+      #   params.permitted?("key").should be true
+      #   params.permitted?("key2").should be true
+      #   params.permitted?("key3").should be false
+      # end
+    end
+
+    describe "#require" do
+      it "throws an error if the attribute does not exist"
+      # do
+      #   req.query_string = "key=val"
+      #   params = Params.new(req)
+      #   expect { params.require("key") }.to_not raise_error
+      #   expect { params.require("key2") }.to raise_error(Params::AttributeNotFoundError)
+      # end
+    end
+
+    describe "interaction with ARLite models" do
+      it "throws a ForbiddenAttributesError if mass assignment is attempted with unpermitted attributes"
+    end
+  end
 end

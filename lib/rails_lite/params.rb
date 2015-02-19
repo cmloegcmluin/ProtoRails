@@ -1,5 +1,17 @@
 require 'uri'
 
+class Hash
+  def permit(*keys)
+    output = {}
+    keys.each do |key|
+      output[key] = self[key.to_s]
+    end
+
+    output
+  end
+end
+
+
 class Params
 
   def initialize(req, route_params = {})
@@ -13,7 +25,11 @@ class Params
   end
 
   def to_s
-    @params.to_json.to_s
+    self.to_json.to_s
+  end
+
+  def require(key)
+    self[key] || fail
   end
 
   class AttributeNotFoundError < ArgumentError

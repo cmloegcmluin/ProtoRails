@@ -5,11 +5,15 @@ require 'byebug'
 require_relative './session'
 require_relative './router'
 require_relative './params'
+require_relative './flash'
+require_relative './url_helpers'
 
 class ControllerBase
   attr_reader :req, :res
   attr_reader :params
   attr_accessor :already_built_response
+
+  include URLHelpers
 
   def initialize(req, res, route_params = {})
     @params = Params.new(req, route_params)
@@ -26,6 +30,7 @@ class ControllerBase
     self.res.status = 302
     self.res.header["location"] = url
     session.store_session(@res)
+    flash.store_flash(@res)
   end
 
   def render_content(content, type)
@@ -33,11 +38,13 @@ class ControllerBase
     self.res.content_type = type
     self.res.body = content
     session.store_session(@res)
+    flash.store_flash(@res)
   end
 
   def render(template_name)
     folder_name = self.class.to_s.underscore[0..-12]
-    template = File.read("app/views/#{folder_name}/#{template_name}.html.erb")
+    template = File.read("app/views/layouts/application.html.erb")
+    template += File.read("app/views/#{folder_name}/#{template_name}.html.erb")
     content = ERB.new(template).result(binding)
     render_content(content, "text/html")
   end
@@ -46,12 +53,28 @@ class ControllerBase
     @session ||= Session.new(@req)
   end
 
+  def flash
+    @flash ||= Flash.new(@req)
+  end
+
   def invoke_action(name)
     self.send(name)
     render(name) unless already_built_response?
 
     nil
   end
+
+  # def self.helper_method(*methods)
+  #   methods.each do |method|
+  #     define_method("#{method}") do
+  #     end
+  #     #master_helper_module.module_eval "def \#{method}(*args, &block)                    # def current_user(*args, &block)\ncontroller.send(%(\#{method}), *args, &block)  #   controller.send(%(current_user), *args, &block)\nend                                             # end\n"
+  #   end
+  # end
+
+  # def self.validates(*params, validation)
+  #
+  # end
 
   private
 
